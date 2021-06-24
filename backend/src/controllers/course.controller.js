@@ -38,19 +38,42 @@ const getSubjectsForCourse = async (req, res) => {
   }
 };
 
+// const calculateAmount = async (req, res) => {
+//   if (req.params && req.params.id) {
+//     const course = await Course.findById(req.params.id); /*.populate(
+//       "subjects",
+//       "amount"
+//     );*/
+//     let totalAmount = 0;
+//     console.log(course);
+//     // console.log(totalAmount); //test
+//     if (course.subjects.length > 0) {
+//       console.log(course.subjects.length); //test
+//       course.subjects.map((subject) => {
+//         console.log(subject._id.amount); //test
+//         //totalAmount += subject.amount;
+//         totalAmount = totalAmount + subject.amount;
+//       });
+//     }
+//     res.status(200).send({ totalAmount: totalAmount });
+//   }
+// };
+
 const calculateAmount = async (req, res) => {
   if (req.params && req.params.id) {
     const course = await Course.findById(req.params.id).populate(
       "subjects",
       "amount"
     );
-    let totalAmount = 0;
 
+    let totalAmount = 0;
+    console.log(course);
     if (course.subjects.length > 0) {
       course.subjects.map((subject) => {
         totalAmount += subject.amount;
       });
     }
+
     res.status(200).send({ totalAmount: totalAmount });
   }
 };

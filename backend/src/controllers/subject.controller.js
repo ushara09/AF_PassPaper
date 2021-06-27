@@ -15,7 +15,7 @@ const createSubject = async (req, res) => {
 };
 
 const getSubject = async (req, res) => {
-  await Subject.find({ amount: { $lt: 3000 } })
+  await Subject.find()
     .then((data) => {
       res.status(200).send({ data: data });
     })

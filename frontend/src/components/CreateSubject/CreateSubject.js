@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 const initialState = {
   subjectName: "",
@@ -10,6 +11,7 @@ class CreateSubject extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     this.state = initialState;
   }
 
@@ -17,11 +19,30 @@ class CreateSubject extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+    let subject = {
+      name: this.state.subjectName,
+      description: this.state.description,
+      amount: this.state.amount,
+    };
+    console.log("Subject Details - ", subject);
+    axios
+      .post("http://localhost:5000/subject/create", subject)
+      .then((response) => {
+        alert("Data inserted successfully !");
+      })
+      .catch((error) => {
+        alert("Data didnt send !");
+        console.log(error.message);
+      });
+  }
+
   render() {
     return (
       <div>
         <h1>Create Subject</h1>
-        <form>
+        <form onSubmit={this.onSubmit}>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail" className="form-label">
               Name
